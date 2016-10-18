@@ -1,4 +1,5 @@
 *.sublime-*
+*.beam
 _build/
 rebar3
 rebar.lock

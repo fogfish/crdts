@@ -16,3 +16,83 @@
 %% @description
 %%   commutative replicated data types
 -module(crdts).
+
+-export([
+   new/1
+  ,update/2
+  ,update/3
+  ,value/1
+  ,value/2
+  ,descend/2
+  ,join/2
+]).
+
+%%%------------------------------------------------------------------
+%%%
+%%% data types
+%%%
+%%%------------------------------------------------------------------
+-export_type([crdt/0]).
+
+%%
+%%
+-type crdt()     :: {type(), s()}.
+-type type()     :: gcounter.
+
+-type lens()     :: _.
+
+-type s()        :: _. %% type of crdt object
+-type a()        :: _. %% type of focused element (focus type)  
+
+
+
+%%%------------------------------------------------------------------
+%%%
+%%% data types
+%%%
+%%%------------------------------------------------------------------
+
+%%
+%% create new data type value
+-spec new(type()) -> crdt().
+
+new(gcounter) -> new(crdts_gcounter);
+new(CRDT)     -> {CRDT, CRDT:new()}.
+
+%%
+%% update data type value
+-spec update(a(), crdt()) -> crdt().
+-spec update(lens(), a(), crdt()) -> crdt().
+
+update(X, {CRDT, Value}) -> 
+   {CRDT, CRDT:update(X, Value)}.
+
+update(Lens, X, {CRDT, Value}) -> 
+   {CRDT, CRDT:update(Lens, X, Value)}.
+
+%%
+%% query data type value
+-spec value(crdt()) -> crdt().
+-spec value(lens(), crdt()) -> crdt().
+
+value({CRDT, Value}) -> 
+   CRDT:value(Value).
+
+value(Lens, {CRDT, Value}) -> 
+   CRDT:value(Lens, Value).
+
+%%
+%% compare values, return if A =< B in semi-lattice
+-spec descend(crdt(), crdt()) -> true | false.
+
+descend({CRDT, ValueA}, {CRDT, ValueB}) -> 
+   CRDT:descend(ValueA, ValueB).
+
+%%
+%% merge two value(s)
+-spec join(crdt(), crdt()) -> crdt().
+
+join({CRDT, ValueA}, {CRDT, ValueB}) -> 
+   {CRDT, CRDT:join(ValueA, ValueB)}.
+
+
