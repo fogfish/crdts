@@ -69,10 +69,14 @@ new(CRDT)     -> {CRDT, CRDT:new()}.
 -spec update(lens(), a(), crdt()) -> crdt().
 
 update(X, {CRDT, Value}) -> 
-   {CRDT, CRDT:update(X, Value)}.
+   {CRDT, CRDT:update(X, Value)};
+update(_, undefined) ->
+   undefined.
 
 update(Lens, X, {CRDT, Value}) -> 
-   {CRDT, CRDT:update(Lens, X, Value)}.
+   {CRDT, CRDT:update(Lens, X, Value)};
+update(_, _, undefined) ->
+   undefined.
 
 %%
 %% query data type value
@@ -80,23 +84,35 @@ update(Lens, X, {CRDT, Value}) ->
 -spec value(lens(), crdt()) -> crdt().
 
 value({CRDT, Value}) -> 
-   CRDT:value(Value).
+   CRDT:value(Value);
+value(undefined) ->
+   undefined.
 
 value(Lens, {CRDT, Value}) -> 
-   CRDT:value(Lens, Value).
+   CRDT:value(Lens, Value);
+value(_Lens, undefined) ->
+   undefined.
 
 %%
 %% compare values, return if A =< B in semi-lattice
 -spec descend(crdt(), crdt()) -> true | false.
 
 descend({CRDT, ValueA}, {CRDT, ValueB}) -> 
-   CRDT:descend(ValueA, ValueB).
+   CRDT:descend(ValueA, ValueB);
+descend(undefined, _) ->
+   true;
+descend(_, undefined) ->
+   false.
 
 %%
 %% merge two value(s)
 -spec join(crdt(), crdt()) -> crdt().
 
 join({CRDT, ValueA}, {CRDT, ValueB}) -> 
-   {CRDT, CRDT:join(ValueA, ValueB)}.
+   {CRDT, CRDT:join(ValueA, ValueB)};
+join(undefined, B) ->
+   B;
+join(A, undefined) ->
+   A.
 
 
