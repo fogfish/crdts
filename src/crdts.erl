@@ -37,7 +37,9 @@
 %%
 %%
 -type crdt()     :: {type(), s()}.
--type type()     :: gcounter.
+-type type()     :: gcounter
+                  | gsets
+                  | lwwreg.
 
 -type lens()     :: _.
 
@@ -57,6 +59,8 @@
 -spec new(type()) -> crdt().
 
 new(gcounter) -> new(crdts_gcounter);
+new(gsets)    -> new(crdts_gsets);
+new(lwwreg)   -> new(crdts_lwwreg);
 new(CRDT)     -> {CRDT, CRDT:new()}.
 
 %%

@@ -15,7 +15,7 @@
 %%
 %% @description
 %%   G-Counter test suite
--module(gcounter_SUITE).
+-module(gsets_SUITE).
 -include_lib("common_test/include/ct.hrl").
 
 %%
@@ -80,28 +80,27 @@ end_per_group(_, _Config) ->
 %%%----------------------------------------------------------------------------   
 
 new(_Config) ->
-   {crdts_gcounter, []} = crdts:new(gcounter).
+   {crdts_gsets, []} = crdts:new(gsets).
 
 update(_Config) ->
-   Node = erlang:node(),
-   {crdts_gcounter, [{Node, 1}]} = crdts:update(1, crdts:new(gcounter)).
+   {crdts_gsets, [a]} = crdts:update(a, crdts:new(gsets)).
 
 value(_Config) ->
-   A = crdts:new(gcounter),
-   B = crdts:update(1,  A),
-   C = crdts:update(10, B),
-   D = crdts:update(100,C),
+   A = crdts:new(gsets),
+   B = crdts:update(a, A),
+   C = crdts:update(b, B),
+   D = crdts:update(c, C),
 
-   0 = crdts:value(A),
-   1 = crdts:value(B),
-   11= crdts:value(C),
-   111 = crdts:value(D).
+   [] = crdts:value(A),
+   [a] = crdts:value(B),
+   [a,b] = crdts:value(C),
+   [a,b,c] = crdts:value(D).
 
 descend(_Config) ->
-   A = crdts:new(gcounter),
-   B = crdts:update(1,  A),
-   C = crdts:update(10, B),
-   D = crdts:update(100,C),
+   A = crdts:new(gsets),
+   B = crdts:update(a, A),
+   C = crdts:update(b, B),
+   D = crdts:update(c, C),
 
    true = crdts:descend(A, B),
    true = crdts:descend(B, C),
@@ -109,16 +108,16 @@ descend(_Config) ->
    false= crdts:descend(D, A).
 
 join(_Config) ->
-   A  = crdts:new(gcounter),
-   Bx = crdts:update(lens:pair(x, 0), 1, A),
-   By = crdts:update(lens:pair(y, 0),10, A),
+   A  = crdts:new(gsets),
+   Bx = crdts:update(a, A),
+   By = crdts:update(b, A),
    C  = crdts:join(Bx, By),
    
    false= crdts:descend(Bx, By),
    false= crdts:descend(By, Bx),
    true = crdts:descend(Bx,  C),
    true = crdts:descend(By,  C),
-   11 = crdts:value(C).
+   [a, b] = crdts:value(C).
 
 
 
