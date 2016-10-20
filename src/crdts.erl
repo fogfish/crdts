@@ -64,7 +64,7 @@ new(lwwreg)   -> new(crdts_lwwreg);
 new(CRDT)     -> {CRDT, CRDT:new()}.
 
 %%
-%% update data type value
+%% writes to the replica state in accordance with data type restrictions
 -spec update(a(), crdt()) -> crdt().
 -spec update(lens(), a(), crdt()) -> crdt().
 
@@ -79,7 +79,7 @@ update(_, _, undefined) ->
    undefined.
 
 %%
-%% query data type value
+%% reads the state of the replica, with no side effects
 -spec value(crdt()) -> crdt().
 -spec value(lens(), crdt()) -> crdt().
 
@@ -105,7 +105,7 @@ descend(_, undefined) ->
    false.
 
 %%
-%% merge two value(s)
+%% merges local state with the state of some remote replica
 -spec join(crdt(), crdt()) -> crdt().
 
 join({CRDT, ValueA}, {CRDT, ValueB}) -> 
