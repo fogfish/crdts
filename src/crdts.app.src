@@ -1,6 +1,6 @@
 {application, crdts,
    [
-      {description, "commutative replicated data types"},
+      {description, "convergent replicated data types"},
       {vsn,         "0.0.0"},
       {modules,     []},
       {registered,  []},

@@ -14,7 +14,7 @@
 %%   limitations under the License.
 %%
 %% @description
-%%   commutative replicated data types
+%%   convergent replicated data types
 -module(crdts).
 
 -export([
