@@ -13,15 +13,15 @@
 %%
 %% create new data type value
 new() ->
-   {undefined, uid:g()}.
+   {undefined, uid:encode(uid:g())}.
 
 %%
 %% update data type value
 update(X, _Value) ->
-   {X, uid:g()}.   
+   {X, uid:encode(uid:g())}.   
 
 update(_Lens, X, _Value) ->
-   {X, uid:g()}.
+   {X, uid:encode(uid:g())}.
 
 %%
 %% query data type value
@@ -37,27 +37,12 @@ value(_Lens, Value) ->
 %% Either timestamps or k-order values do not guarantee total order.
 %% Let's approximate total order using neighborhood approximation.
 descend({_, A}, {_, B}) ->
-   compare(A, B).
-
--define(NEIGHBOR, 600000). %% 600 seconds
-
-compare({uid, Node, _, _} = A, {uid, Node,  _, _} = B) ->
-   A =< B;
-
-compare({uid, _, _, _} = A, {uid, _, _, _} = B) ->
-   case uid:t( uid:d(A, B) ) of
-      X when X >= -?NEIGHBOR, X =< ?NEIGHBOR ->
-         A =< B;
-      X when X > ?NEIGHBOR ->
-         true;
-      _ ->
-         false 
-   end.
+   A =< B.
 
 %%
 %% merge two value(s)
 join({_, Ta} = A, {_, Tb} = B) ->
-   case compare(Ta, Tb) of
+   case Ta =< Tb of
       true  -> B;
       false -> A
    end.
