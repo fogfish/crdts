@@ -45,8 +45,8 @@ update(add, X, Value) ->
 value(Value) ->
    ordsets:to_list(Value).
 
-value(Lens, Value) ->
-   lens:get(Lens, Value).   
+value({has, X}, Value) ->
+   ordsets:is_element(X, Value).   
 
 %%
 %% compare values, return if A =< B in semi-lattice

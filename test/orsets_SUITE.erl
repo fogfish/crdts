@@ -85,15 +85,15 @@ new(_Config) ->
 update(_Config) ->
    A = crdts:new(orsets),
    {crdts_orsets, [{a, [{_, false}]}]} = crdts:update(a, A),
-   {crdts_orsets, [{a, [{_, true}]}]}  = crdts:update(remove, a, crdts:update(a, A)).
+   {crdts_orsets, [{a, [{_, true}]}]}  = crdts:update(sub, a, crdts:update(a, A)).
 
 value(_Config) ->
    A = crdts:new(orsets),
    B = crdts:update(a, A),
    C = crdts:update(b, B),
    D = crdts:update(c, C),
-   E = crdts:update(remove, c, D),
-   F = crdts:update(remove, b, E),
+   E = crdts:update(sub, c, D),
+   F = crdts:update(sub, b, E),
 
    [] = crdts:value(A),
    [a] = crdts:value(B),
@@ -107,8 +107,8 @@ descend(_Config) ->
    B = crdts:update(a, A),
    C = crdts:update(b, B),
    D = crdts:update(c, C),
-   E = crdts:update(remove, c, D),
-   F = crdts:update(remove, b, E),
+   E = crdts:update(sub, c, D),
+   F = crdts:update(sub, b, E),
 
    true = crdts:descend(A, B),
    true = crdts:descend(B, C),

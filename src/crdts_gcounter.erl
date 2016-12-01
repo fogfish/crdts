@@ -35,17 +35,17 @@ new() ->
 %%
 %% update data type value
 update(X, Value) ->
-   update(lens:pair(erlang:node(), 0), X, Value).
+   update(erlang:node(), X, Value).
 
-update(Lens, X, Value) ->
-   lens:apply(Lens, fun(Y) -> Y + X end, Value).
+update(Node, X, Value) ->
+   lens:apply(lens:pair(Node, 0), fun(Y) -> Y + X end, Value).
 
 %%
 %% query data type value
 value(Value) ->
    lists:sum([X || {_, X} <- Value]).
 
-value(_Lens, Value) ->
+value(_, Value) ->
    value(Value).
 
 %%

@@ -35,14 +35,12 @@ new() ->
 %%
 %% update data type value
 update(X, Value) ->
-   % default is put lens
    update(add, X, Value).
-
 
 update(add, X, Value) ->
    orddict:update(X, fun token_add/1, token_new(), Value);
    
-update(remove, X, Value) ->
+update(sub, X, Value) ->
    case orddict:is_key(X, Value) of
       false -> Value;
       true  -> orddict:update(X, fun token_rmv/1, Value)
@@ -51,12 +49,15 @@ update(remove, X, Value) ->
 %%
 %% query data type value
 value(Value) ->
-   orddict:fetch_keys(
-      orddict:filter(fun token_isa/2, Value)
+   ordsets:new(   
+      orddict:fetch_keys(
+         orddict:filter(fun token_isa/2, Value)
+      )
    ).
 
-value(Lens, Value) ->
-   lens:get(Lens, value(Value)).
+value({has, X}, Value) ->
+   ordsets:is_element(X, value(Value)). 
+
 
 %%
 %% compare values, return if A =< B in semi-lattice

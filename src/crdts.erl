@@ -39,12 +39,13 @@
 -type crdt()     :: {type(), s()}.
 -type type()     :: gcounter
                   | gsets
+                  | orsets
                   | lwwreg.
 
--type lens()     :: atom().
+-type f()        :: atom().  %% operation applied crdt
 
--type s()        :: _. %% type of crdt object
--type a()        :: _. %% type of focused element (focus type)  
+-type s()        :: _.       %% type of crdt object
+-type a()        :: _.       %% type of focused element (focus type)  
 
 
 
@@ -67,30 +68,30 @@ new(CRDT)     -> {CRDT, CRDT:new()}.
 %%
 %% writes to the replica state in accordance with data type restrictions
 -spec update(a(), crdt()) -> crdt().
--spec update(lens(), a(), crdt()) -> crdt().
+-spec update(f(), a(), crdt()) -> crdt().
 
 update(X, {CRDT, Value}) -> 
    {CRDT, CRDT:update(X, Value)};
 update(_, undefined) ->
    undefined.
 
-update(Lens, X, {CRDT, Value}) -> 
-   {CRDT, CRDT:update(Lens, X, Value)};
+update(Fn, X, {CRDT, Value}) -> 
+   {CRDT, CRDT:update(Fn, X, Value)};
 update(_, _, undefined) ->
    undefined.
 
 %%
 %% reads the state of the replica, with no side effects
 -spec value(crdt()) -> crdt().
--spec value(lens(), crdt()) -> crdt().
+-spec value(f(), crdt()) -> crdt().
 
 value({CRDT, Value}) -> 
    CRDT:value(Value);
 value(undefined) ->
    undefined.
 
-value(Lens, {CRDT, Value}) -> 
-   CRDT:value(Lens, Value);
+value(Fn, {CRDT, Value}) -> 
+   CRDT:value(Fn, Value);
 value(_Lens, undefined) ->
    undefined.
 

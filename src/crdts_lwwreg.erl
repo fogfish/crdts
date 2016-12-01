@@ -37,7 +37,7 @@ new() ->
 update(X, _Value) ->
    {X, uid:encode(uid:g())}.   
 
-update(_Lens, X, _Value) ->
+update(_, X, _Value) ->
    {X, uid:encode(uid:g())}.
 
 %%
@@ -45,7 +45,7 @@ update(_Lens, X, _Value) ->
 value({Value, _}) ->
    Value.
 
-value(_Lens, Value) ->
+value(_, Value) ->
    Value.
 
 %%

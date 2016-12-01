@@ -110,8 +110,8 @@ descend(_Config) ->
 
 join(_Config) ->
    A  = crdts:new(gcounter),
-   Bx = crdts:update(lens:pair(x, 0), 1, A),
-   By = crdts:update(lens:pair(y, 0),10, A),
+   Bx = crdts:update(x,  1, A),
+   By = crdts:update(y, 10, A),
    C  = crdts:join(Bx, By),
    
    false= crdts:descend(Bx, By),
