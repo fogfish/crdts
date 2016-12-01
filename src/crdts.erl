@@ -41,7 +41,7 @@
                   | gsets
                   | lwwreg.
 
--type lens()     :: _.
+-type lens()     :: atom().
 
 -type s()        :: _. %% type of crdt object
 -type a()        :: _. %% type of focused element (focus type)  
@@ -60,6 +60,7 @@
 
 new(gcounter) -> new(crdts_gcounter);
 new(gsets)    -> new(crdts_gsets);
+new(orsets)   -> new(crdts_orsets);
 new(lwwreg)   -> new(crdts_lwwreg);
 new(CRDT)     -> {CRDT, CRDT:new()}.
 
