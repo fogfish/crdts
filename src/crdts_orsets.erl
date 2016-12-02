@@ -49,7 +49,7 @@ update(sub, X, Value) ->
 %%
 %% query data type value
 value(Value) ->
-   ordsets:new(   
+   ordsets:from_list(   
       orddict:fetch_keys(
          orddict:filter(fun token_isa/2, Value)
       )
