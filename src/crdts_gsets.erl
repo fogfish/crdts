@@ -37,6 +37,10 @@ new() ->
 update(X, Value) ->
    update(add, X, Value).
 
+update(add, X, Value)
+ when is_list(X) ->
+   ordsets:union(ordsets:from_list(X), Value);
+
 update(add, X, Value) ->
    ordsets:add_element(X, Value).
 
