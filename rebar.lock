@@ -1,0 +1,8 @@
+[{<<"datum">>,
+  {git,"https://github.com/fogfish/datum",
+       {ref,"cddc9ada86dd2a98da51a03f8d26e828a8551e2b"}},
+  0},
+ {<<"uid">>,
+  {git,"https://github.com/fogfish/uid",
+       {ref,"698ebcb27b273a2f879d8bd24be5f5ea54c98850"}},
+  0}].

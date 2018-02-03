@@ -32,10 +32,13 @@
 %%% data types
 %%%
 %%%------------------------------------------------------------------
--export_type([crdt/0]).
+-export_type([crdt/0, orset/0, orset/1]).
 
 %%
 %%
+-type orset()    :: {orset, [_]}.
+-type orset(T)   :: {orset, [T]}.
+
 -type crdt()     :: {type(), s()}.
 -type type()     :: gcounter
                   | gsets
